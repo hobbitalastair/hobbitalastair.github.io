@@ -19,10 +19,14 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+      - name: Install dependencies
+        run: sudo apt-get install -y pandoc
+      - name: Build the site
+        run: './build'
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: './static'
+          path: './dist'
 
   deploy:
     needs: build

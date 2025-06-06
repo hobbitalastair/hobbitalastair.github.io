@@ -1,0 +1,15 @@
+#!/usr/bin/env sh
+
+set -e
+
+mkdir -p dist/
+
+for f in *.md; do
+    pandoc --from markdown --to html \
+        "$f" -o "dist/${f%.md}.html" \
+        --template template.html \
+        --standalone
+done
+
+cp -r static/* dist/
+
