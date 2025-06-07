@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+
+set -e
+
+if [ "$#" -ne 1 ]; then
+    printf "usage: %s <filename>\n" "$0" 1>&2
+    exit 1
+fi
+if [ ! -f "$1" ]; then
+    printf "Not a file: %s\n" "$1" 1>&2
+    exit 1
+fi
+
+dir="$(dirname "$(realpath "$0")")"
+output="${dir}/docs/$(uuidgen -7).${1##*.}"
+cp -v "$1" "${output}"
+git add "${output}"

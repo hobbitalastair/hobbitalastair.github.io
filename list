@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+set -e
+
+dir="$(dirname "$(basename "$0")")"
+grep -He '^title: ' docs/* | sed 's/:title: */: /'

@@ -1,15 +1,33 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
 
 set -e
 
+rm -rf dist/
 mkdir -p dist/
 
-for f in *.md; do
+for f in docs/*.md; do
     pandoc --from markdown --to html \
-        "$f" -o "dist/${f%.md}.html" \
+        "$f" -o "dist/$(basename "${f%.md}").html" \
         --template template.html \
         --standalone
 done
 
 cp -r static/* dist/
+
+pandoc --from markdown --to html \
+    "index.md" -o "dist/index.html" \
+    --include-after-body <(
+        # Generate index
+        printf '<ul>\n'
+        for f in dist/*.html; do
+            link_target="$(basename "${f}")"
+            title="$(sed -ne 's:.*<title>\(.*\)</title>.*:\1:p' "${f}")"
+            if [ "${title}z" != "z" ]; then
+                printf '    <li><a href=%s>%s</a></li>\n' "${link_target}" "${title}"
+            fi
+        done
+        printf '</ul>\n'
+        ) \
+    --template template.html \
+    --standalone
 
