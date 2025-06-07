@@ -3,4 +3,4 @@
 set -e
 
 dir="$(dirname "$(basename "$0")")"
-grep -He '^title: ' docs/* | sed 's/:title: */: /'
+grep -He '^title: ' docs/* | sed 's/:title: */: /' | sort --key=2
