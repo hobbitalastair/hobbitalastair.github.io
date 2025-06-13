@@ -8,6 +8,7 @@ mkdir -p dist/
 for f in docs/*.md; do
     pandoc --from markdown --to html \
         "$f" -o "dist/$(basename "${f%.md}").html" \
+        --include-before-body header.html \
         --template template.html \
         --lua-filter filters/anchor-links.lua \
         --standalone
