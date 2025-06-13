@@ -1,5 +1,6 @@
 ---
 title: Embedded communication technologies
+date: 2025-06-13
 ---
 
 Embedded systems with >1 boards need a way for the boards to communicate.
