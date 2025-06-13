@@ -30,6 +30,35 @@ $endif$
             width: 100%;
             max-width: 80ch;
         }
+
+        /* Switch to two column view on wide pages */
+        @media (min-width: 160ch) {
+            .container {
+                column-count: 2;
+                column-gap: 2rem;
+                max-width: 180ch;
+            }
+        }
+
+        /* Show anchor links after headings on hover */
+        .anchor:after {
+            /* Link symbol + variation selector-15 (UFE0E); the latter forces to use the current font, not some special emoji */
+            content: '🔗\FE0E';
+            display: inline-block;
+            opacity: 0.2;
+            margin-left: 0.2rem;
+            font-size: 0.7em;
+            transition: opacity 0.2s ease;
+        }
+        .anchor {
+            color: inherit;
+            text-decoration: none;
+        }
+        h1:hover > .anchor::after,
+        h2:hover > .anchor::after,
+        h3:hover > .anchor::after {
+            opacity: 1;
+        }
     </style>
 $for(header-includes)$
     $header-includes$
