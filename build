@@ -10,6 +10,7 @@ for f in docs/*.md; do
         "$f" -o "dist/$(basename "${f%.md}").html" \
         --include-before-body header.html \
         --template template.html \
+        --section-divs=true \
         --lua-filter filters/anchor-links.lua \
         --standalone
 done
@@ -20,7 +21,7 @@ pandoc --from markdown --to html \
     "index.md" -o "dist/index.html" \
     --include-after-body <(
         # Generate index
-        printf '<ul>\n'
+        printf '<section id="toc" class="level2"><ul>\n'
         for f in dist/*.html; do
             link_target="$(basename "${f}")"
             title="$(sed -ne 's:.*<title>\(.*\)</title>.*:\1:p' "${f}")"
@@ -28,8 +29,9 @@ pandoc --from markdown --to html \
                 printf '    <li><a href=%s>%s</a></li>\n' "${link_target}" "${title}"
             fi
         done
-        printf '</ul>\n'
+        printf '</ul></section class="level2">\n'
         ) \
     --template template.html \
+    --section-divs=true \
     --standalone
 
